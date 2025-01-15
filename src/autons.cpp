@@ -13,6 +13,11 @@ const int SWING_SPEED = 110;
 ///
 // Constants
 ///
+
+// https://electronics.stackexchange.com/questions/619841/what-are-the-effects-of-removing-p-i-and-d-from-a-pid-controller-respectively
+// PD -> (P / .6) * .8, I = 0, D
+// PI -> (P / .6) * .45, (I * 2) / 1.2, 0
+// 
 void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(20.0, 0.0, 100.0);         // Fwd/rev constants, used for odom and non odom motions
