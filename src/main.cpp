@@ -1,29 +1,21 @@
 #include "main.h"
 
-/////
-// For installation, upgrading, documentations, and tutorials, check out our website!
-// https://ez-robotics.github.io/EZ-Template/
-/////
-
 ez::Drive chassis(
-    // These are your drive motors, the first motor is used for sensing!
-    {1, -12, 3},               // Left Chassis Ports (negative port will reverse it!)
-    {-4, 5, -8},               // Right Chassis Ports (negative port will reverse it!)
-    11,                        // IMU Port
-    2.75,                      // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    (600.0) * (48.0 / 60.0));  // Wheel RPM = cartridge * (motor gear / wheel gear)
+    {1, -12, 3},
+    {-4, 5, -8},
+    11,
+    2.75,
+    (600.0) * (48.0 / 60.0));
 
 void initialize() {
   ez::ez_template_print();
 
-  pros::delay(500);  // Stop the user from doing anything while legacy ports configure
+  pros::delay(500);
 
-  // Configure your chassis controls
-  chassis.opcontrol_curve_buttons_toggle(true);       // Enables modifying the controller curve with buttons on the joysticks
-  chassis.opcontrol_drive_activebrake_set(2.0);       // Sets the active brake kP. We recommend ~2.  0 will disable.
-  chassis.opcontrol_curve_default_set(1.019, 1.019);  // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
+  chassis.opcontrol_curve_buttons_toggle(true);
+  chassis.opcontrol_drive_activebrake_set(2.0);
+  chassis.opcontrol_curve_default_set(1.019, 1.019);
 
-  // Set the drive to your own constants from autons.cpp!
   default_constants();
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -31,64 +23,47 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add(  //
-      {                               // {"Drive\n\nDrive forward and come back", drive_example},
-                                      // {"Turn\n\nTurn 3 times.", turn_example},
-                                      // {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
-                                      // {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-                                      // {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
-                                      // {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
-                                      // {"Combine all 3 movements", combining_movements},
-                                      // {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
-                                      // {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
-                                      // {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
-                                      // {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-                                      // {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-                                      // {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-                                      // {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", odom_boomerang_injected_pure_pursuit_example},
-       {"Turn Right 90 Degrees", turn_right},
-       {"Drive Forward 2ft", drive_forward}});
+  ez::as::auton_selector.autons_add(           //
+      {                                        // {"Drive\n\nDrive forward and come back", drive_example},
+                                               // {"Turn\n\nTurn 3 times.", turn_example},
+                                               // {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
+                                               // {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
+                                               // {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
+                                               // {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
+                                               // {"Combine all 3 movements", combining_movements},
+                                               // {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
+                                               // {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
+                                               // {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
+                                               // {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
+                                               // {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
+                                               // {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
+                                               // {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", odom_boomerang_injected_pure_pursuit_example},
+       {"Drive Forward 2ft", drive_forward},   //
+       {"Base(Red) Positive", basePositive},   //
+       {"Turn Right 90 Degrees", turn_right}}  //
+  );
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-  master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+  controller.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
 void disabled() {
   // . . .
 }
 
-/**
- * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
- * competition-specific initialization routines, such as an autonomous selector
- * on the LCD.
- *
- * This task will exit when the robot is enabled and autonomous or opcontrol
- * starts.
- */
 void competition_initialize() {
   // . . .
 }
 
-/**
- * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the autonomous
- * mode. Alternatively, this function may be called in initialize or opcontrol
- * for non-competition testing purposes.
- *
- * If the robot is disabled or communications is lost, the autonomous task
- * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
- */
 void autonomous() {
-  chassis.pid_targets_reset();                // Resets PID targets to 0
-  chassis.drive_imu_reset();                  // Reset gyro position to 0
-  chassis.drive_sensor_reset();               // Reset drive sensors to 0
-  chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
-  chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
+  chassis.pid_targets_reset();
+  chassis.drive_imu_reset();
+  chassis.drive_sensor_reset();
+  chassis.odom_xyt_set(0_in, 0_in, 0_deg);  // Set the current position, you can start at a specific position with this
+
+  chassis.drive_brake_set(MOTOR_BRAKE_HOLD);
 
   /*
   Odometry and Pure Pursuit are not magic
@@ -174,11 +149,11 @@ void ez_template_extras() {
     //  When enabled:
     //  * use A and Y to increment / decrement the constants
     //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_X))
+    if (controller.get_digital_new_press(DIGITAL_X))
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
-    if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) {
+    if (controller.get_digital(DIGITAL_B) && controller.get_digital(DIGITAL_DOWN)) {
       pros::motor_brake_mode_e_t preference = chassis.drive_brake_get();
       autonomous();
       chassis.drive_brake_set(preference);
@@ -195,36 +170,42 @@ void ez_template_extras() {
   }
 }
 
-/**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
- */
+void intakeMotorControl() {
+  pros::controller_digital_e_t intakeInButton = pros::E_CONTROLLER_DIGITAL_L2;
+  pros::controller_digital_e_t intakeOutButton = pros::E_CONTROLLER_DIGITAL_L1;
+  double intakeVelocity = 1.0;
+
+  const int motorPower =
+      static_cast<int>((controller.get_digital(intakeInButton) -
+                        controller.get_digital(intakeOutButton)) *
+                       127 * intakeVelocity);
+  intake.move(motorPower);
+}
+
+void armMotorControl() {
+  pros::controller_digital_e_t armInButton = pros::E_CONTROLLER_DIGITAL_R2;
+  pros::controller_digital_e_t armOutButton = pros::E_CONTROLLER_DIGITAL_R1;
+  double armVelocity = 1.0;
+
+  const int motorPower = (controller.get_digital(armInButton) -
+                          controller.get_digital(armOutButton)) *
+                         127 * armVelocity;
+  arm.move(motorPower);
+}
+
+void holderPistonControl() {
+  pros::controller_digital_e_t holderPistonButton = pros::E_CONTROLLER_DIGITAL_Y;
+  holderPiston.button_toggle(holderPistonButton);
+}
+
 void opcontrol() {
-  // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-
-    // chassis.opcontrol_tank();  // Tank control
     chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
-    // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
-    // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
-    // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-
-    // . . .
-    // Put more user control code here!
-    // . . .
+    intakeMotorControl();
+    armMotorControl();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

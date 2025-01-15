@@ -21,7 +21,7 @@ using namespace okapi::literals;
 /**
  * Controller.
  */
-extern pros::Controller master;
+extern pros::Controller controller;
 
 namespace ez {
 

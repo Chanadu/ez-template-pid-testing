@@ -6,7 +6,7 @@
 /////
 
 // These are out of 127
-const int DRIVE_SPEED = 110;
+const int DRIVE_SPEED = 50;
 const int TURN_SPEED = 90;
 const int SWING_SPEED = 110;
 
@@ -56,9 +56,33 @@ void drive_forward() {
   chassis.pid_wait();
 }
 
+///
+// Turn Right
+///
 void turn_right() {
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
+}
+
+///
+// Base
+///
+void basePositive() {
+  chassis.odom_xyt_set(-61.161_in, -36.145_in, 90_deg);
+
+  chassis.pid_odom_set({
+                           {{-32.354_in, -27.995_in, 160_deg}, rev, DRIVE_SPEED},
+                           {{-27.427_in, -40.314_in, 100_deg}, fwd, DRIVE_SPEED},
+                           {{-9.612_in, -44.104_in, 290_deg}, fwd, DRIVE_SPEED},
+                           {{-32.923_in, -34.628_in, 40_deg}, fwd, DRIVE_SPEED},
+                           {{-16.624_in, -18.52_in, 0_deg}, fwd, DRIVE_SPEED},
+                       },
+                       true);
+  // chassis.pid_wait_until_index(1);
+  // intake.move(127);
+
+  chassis.pid_wait();
+  // intake.move(0);  // Turn the intake off
 }
 
 ///
@@ -272,9 +296,11 @@ void odom_drive_example() {
 ///
 void odom_pure_pursuit_example() {
   // Drive to 0, 30 and pass through 6, 10 and 0, 20 on the way, with slew
-  chassis.pid_odom_set({{{6_in, 10_in}, fwd, DRIVE_SPEED},
-                        {{0_in, 20_in}, fwd, DRIVE_SPEED},
-                        {{0_in, 30_in}, fwd, DRIVE_SPEED}},
+  chassis.pid_odom_set({
+                           {{6_in, 10_in}, fwd, DRIVE_SPEED},
+                           {{0_in, 20_in}, fwd, DRIVE_SPEED},
+                           {{0_in, 30_in}, fwd, DRIVE_SPEED},
+                       },
                        true);
   chassis.pid_wait();
 
@@ -288,9 +314,11 @@ void odom_pure_pursuit_example() {
 // Odom Pure Pursuit Wait Until
 ///
 void odom_pure_pursuit_wait_until_example() {
-  chassis.pid_odom_set({{{0_in, 24_in}, fwd, DRIVE_SPEED},
-                        {{12_in, 24_in}, fwd, DRIVE_SPEED},
-                        {{24_in, 24_in}, fwd, DRIVE_SPEED}},
+  chassis.pid_odom_set({
+                           {{0_in, 24_in}, fwd, DRIVE_SPEED},
+                           {{12_in, 24_in}, fwd, DRIVE_SPEED},
+                           {{24_in, 24_in}, fwd, DRIVE_SPEED},
+                       },
                        true);
   chassis.pid_wait_until_index(1);  // Waits until the robot passes 12, 24
   // Intake.move(127);  // Set your intake to start moving once it passes through the second point in the index

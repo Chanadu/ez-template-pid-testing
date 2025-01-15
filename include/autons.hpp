@@ -2,6 +2,8 @@
 
 void default_constants();
 
+void basePositive();
+
 void drive_forward();
 void turn_right();
 

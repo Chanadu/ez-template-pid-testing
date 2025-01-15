@@ -211,7 +211,7 @@ class PID {
    * \param print = false
    *        if true, prints when complete
    */
-  ez::exit_output exit_condition(pros::Motor sensor, bool print = false);
+  ez::exit_output exit_condition(pros::arm sensor, bool print = false);
 
   /**
    * Iterative exit condition for PID.
@@ -221,7 +221,7 @@ class PID {
    * \param print = false
    *        if true, prints when complete
    */
-  ez::exit_output exit_condition(std::vector<pros::Motor> sensor, bool print = false);
+  ez::exit_output exit_condition(std::vector<pros::arm> sensor, bool print = false);
 
   /**
    * Iterative exit condition for PID.

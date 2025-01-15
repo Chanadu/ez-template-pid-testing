@@ -50,12 +50,12 @@ class Drive {
   /**
    * Vector of pros motors for the left chassis.
    */
-  std::vector<pros::Motor> left_motors;
+  std::vector<pros::arm> left_motors;
 
   /**
    * Vector of pros motors for the right chassis.
    */
-  std::vector<pros::Motor> right_motors;
+  std::vector<pros::arm> right_motors;
 
   /**
    * Vector of pros motors that are disconnected from the drive.
@@ -1131,7 +1131,7 @@ class Drive {
    * \param check_if_pto
    *        motor to check
    */
-  bool pto_check(pros::Motor check_if_pto);
+  bool pto_check(pros::arm check_if_pto);
 
   /**
    * Adds motors to the pto list, removing them from the drive.
@@ -1141,7 +1141,7 @@ class Drive {
    * \param pto_list
    *        list of motors to remove from the drive
    */
-  void pto_add(std::vector<pros::Motor> pto_list);
+  void pto_add(std::vector<pros::arm> pto_list);
 
   /**
    * Removes motors from the pto list, adding them to the drive.
@@ -1149,7 +1149,7 @@ class Drive {
    * \param pto_list
    *        list of motors to add to the drive
    */
-  void pto_remove(std::vector<pros::Motor> pto_list);
+  void pto_remove(std::vector<pros::arm> pto_list);
 
   /**
    * Adds/removes motors from drive.
@@ -1161,7 +1161,7 @@ class Drive {
    * \param toggle
    *        list of motors to add/remove from the drive
    */
-  void pto_toggle(std::vector<pros::Motor> pto_list, bool toggle);
+  void pto_toggle(std::vector<pros::arm> pto_list, bool toggle);
 
   /////
   //
