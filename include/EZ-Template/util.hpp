@@ -21,7 +21,7 @@ using namespace okapi::literals;
 /**
  * Controller.
  */
-extern pros::Controller controller;
+extern pros::Controller master;
 
 namespace ez {
 
@@ -115,38 +115,38 @@ const okapi::QAngle p_ANGLE_NOT_SET = 0.0000000000000000000001_deg;
  * Struct for coordinates.
  */
 typedef struct pose {
-  double x;
-  double y;
-  double theta = ANGLE_NOT_SET;
+    double x;
+    double y;
+    double theta = ANGLE_NOT_SET;
 } pose;
 
 /**
  * Struct for united coordinates.
  */
 typedef struct united_pose {
-  okapi::QLength x;
-  okapi::QLength y;
-  okapi::QAngle theta = p_ANGLE_NOT_SET;
+    okapi::QLength x;
+    okapi::QLength y;
+    okapi::QAngle theta = p_ANGLE_NOT_SET;
 } united_pose;
 
 /**
  * Struct for odom movements.
  */
 typedef struct odom {
-  pose target;
-  drive_directions drive_direction;
-  int max_xy_speed;
-  e_angle_behavior turn_behavior = shortest;
+    pose target;
+    drive_directions drive_direction;
+    int max_xy_speed;
+    e_angle_behavior turn_behavior = shortest;
 } odom;
 
 /**
  * Struct for united odom movements.
  */
 typedef struct united_odom {
-  united_pose target;
-  drive_directions drive_direction;
-  int max_xy_speed;
-  e_angle_behavior turn_behavior = shortest;
+    united_pose target;
+    drive_directions drive_direction;
+    int max_xy_speed;
+    e_angle_behavior turn_behavior = shortest;
 } united_odom;
 
 /**
