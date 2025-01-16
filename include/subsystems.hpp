@@ -11,7 +11,7 @@ extern Drive chassis;
 inline pros::MotorGroup intakeMotors({9, -10}, pros::MotorGears::red);
 inline pros::MotorGroup armMotor({13}, pros::MotorGears::green);
 
-// inline pros::adi::Pneumatics holderPiston('H', true, false);
-inline ez::Piston holderPiston('H');
+inline pros::adi::Pneumatics holderPiston('H', false, false);
+// inline ez::Piston holderPiston('H');
 
 // inline pros::adi::DigitalIn limit_switch('A');

@@ -7,8 +7,8 @@
 
 // These are out of 127
 const int DRIVE_SPEED = 50;
-const int TURN_SPEED = 90;
-const int SWING_SPEED = 110;
+const int TURN_SPEED = 25;
+const int SWING_SPEED = 25;
 
 ///
 // Constants
@@ -68,21 +68,89 @@ void turn_right() {
 // Base
 ///
 void basePositive() {
-    chassis.odom_xyt_set(-61.161_in, -36.145_in, 90_deg);
+    chassis.odom_xyt_set(-61.161_in, -36.145_in, 270_deg);
+
+    intakeMotors.move(0);
+    holderPiston.extend();
 
     chassis.pid_odom_set({
-                             {{-32.354_in, -27.995_in, 160_deg}, rev, DRIVE_SPEED},
-                             {{-27.427_in, -40.314_in, 100_deg}, fwd, DRIVE_SPEED},
-                             {{-9.612_in, -44.104_in, 290_deg}, fwd, DRIVE_SPEED},
-                             {{-32.923_in, -34.628_in, 40_deg}, fwd, DRIVE_SPEED},
-                             {{-16.624_in, -18.52_in, 0_deg}, fwd, DRIVE_SPEED},
+                             {{-26.66_in, -25.665_in, 225_deg}, rev, DRIVE_SPEED},
+                             {{-24.868_in, -43.17_in, 164_deg}, fwd, DRIVE_SPEED},
+                             {{-23.795_in, -47.701_in, 90_deg}, fwd, DRIVE_SPEED},
+                             {{-10.086_in, -47.939_in, 270_deg}, rev, DRIVE_SPEED},
+                             {{-12.947_in, -38.402_in, 0_deg}, fwd, DRIVE_SPEED},
+                             {{-15.093_in, -13.724_in, 0_deg}, fwd, DRIVE_SPEED},
                          },
                          true);
-    // chassis.pid_wait_until_index(1);
-    // intakeMotors.move(127);
 
+    chassis.pid_wait_until_index(0);
+    holderPiston.retract();
+    intakeMotors.move(-127);
+
+    chassis.pid_wait_until_index(1);
+    intakeMotors.move(0);
+    holderPiston.extend();
+
+    chassis.pid_wait_until_index(3);
+    holderPiston.retract();
+
+    chassis.pid_wait_until_index(4);
+    intakeMotors.move(-127);
     chassis.pid_wait();
-    // intakeMotors.move(0);  // Turn the intakeMotors off
+    intakeMotors.move(0);
+}
+
+void baseNegative() {
+    chassis.odom_xyt_set(-61.161_in, 46.864_in, 270_deg);
+
+    intakeMotors.move(0);
+    holderPiston.extend();
+
+    chassis.pid_odom_set({
+                             {{-48.187_in, 46.864_in, 270_deg}, rev, DRIVE_SPEED},
+                             {{-30.308_in, 28.952_in, 315_deg}, rev, DRIVE_SPEED},
+                             {{-23.74_in, 32.171_in, 0_deg}, fwd, DRIVE_SPEED},
+                             {{-23.403_in, 44.142_in, 0_deg}, fwd, DRIVE_SPEED},
+                             {{-10.252_in, 44.468_in, 90_deg}, fwd, DRIVE_SPEED},
+                             {{-33.014_in, 57.294_in, 270_deg}, fwd, DRIVE_SPEED},
+                             {{-52.742_in, 52.236_in, 140_deg}, fwd, DRIVE_SPEED},
+                             {{-57.631_in, 56.282_in, 140_deg}, rev, DRIVE_SPEED},
+                             {{-14.715_in, 12.552_in, 140_deg}, fwd, DRIVE_SPEED},
+                         },
+                         true);
+
+    chassis.pid_wait_until_index(1);
+    holderPiston.retract();
+    chassis.pid_wait_until_index(2);
+    intakeMotors.move(-127);
+    chassis.pid_wait_until_index(5);
+    intakeMotors.move(0);
+    chassis.pid_wait_until_index(6);
+    holderPiston.retract();
+    chassis.pid_wait();
+}
+
+void redPositive() {
+    basePositive();
+}
+
+void redNegative() {
+    baseNegative();
+}
+
+void blueModify() {
+    chassis.odom_x_flip();
+    // chassis.odom_theta_flip();
+}
+
+void bluePositive() {
+    blueModify();
+    basePositive();
+}
+
+void blueNegative() {
+    blueModify();
+    baseNegative();
 }
 
 ///

@@ -2,7 +2,12 @@
 
 void default_constants();
 
-void basePositive();
+// void basePositive();
+// void baseNegative();
+void redPositive();
+void redNegative();
+void bluePositive();
+void blueNegative();
 
 void drive_forward();
 void turn_right();
