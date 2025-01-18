@@ -68,7 +68,7 @@ void turn_right() {
 // Base
 ///
 void basePositive() {
-    chassis.odom_xyt_set(-61.161_in, -36.145_in, 270_deg);
+    chassis.odom_xyt_set(-58.481_in, -24.53_in, 270_deg);
 
     intakeMotors.move(0);
     holderPiston.extend();
@@ -77,9 +77,9 @@ void basePositive() {
                              {{-26.66_in, -25.665_in, 225_deg}, rev, DRIVE_SPEED},
                              {{-24.868_in, -43.17_in, 164_deg}, fwd, DRIVE_SPEED},
                              {{-23.795_in, -47.701_in, 90_deg}, fwd, DRIVE_SPEED},
-                             {{-10.086_in, -47.939_in, 270_deg}, rev, DRIVE_SPEED},
+                             {{-9_in, -47.052_in, 270_deg}, rev, DRIVE_SPEED},
                              {{-12.947_in, -38.402_in, 0_deg}, fwd, DRIVE_SPEED},
-                             {{-15.093_in, -13.724_in, 0_deg}, fwd, DRIVE_SPEED},
+                             {{-14.723_in, -11.338_in, 0_deg}, fwd, DRIVE_SPEED},
                          },
                          true);
 
